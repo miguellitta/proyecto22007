@@ -75,7 +75,11 @@
     <section class="page-wrapper">
         <div class="contact-section">
             <div class="container">
+                {{#if mostrar}}
 
+                <div class="text-center alert alert-{{clase}}" role="alert" >{{mensaje}}</div>
+
+                {{/if}}
 
                 <div class="row">
                     <!-- Contact Form -->
