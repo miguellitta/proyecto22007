@@ -1,12 +1,19 @@
 
+const { response } = require('express');
 let nodemailer = require('nodemailer');
-const datos = require('../productos.json')
+let db = require('../db')
 
 const inicioGET = function (req, res){
-    //console.log(datos[0].data)
+    
+let sql = "SELECT * FROM productos"
+db.query(sql, function(error, data){
+    if (error) res.send(`Ocurrió un error ${error.code}`)
     res.render('index', {
-            productos: datos[0].data
+        titulo: "Mi emprendimiento",
+        productos: data
     })
+})
+
 }
 
 const contactoGET = function(req, res){
