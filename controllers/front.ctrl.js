@@ -1,22 +1,22 @@
 
-const { response } = require('express');
 let nodemailer = require('nodemailer');
 let db = require('../db')
 
-const inicioGET = function (req, res){
-    
-let sql = "SELECT * FROM productos"
-db.query(sql, function(error, data){
-    if (error) res.send(`Ocurrió un error ${error.code}`)
-    res.render('index', {
-        titulo: "Mi emprendimiento",
-        productos: data
+const inicioGET = function (req, res) {
+   
+    let sql = "SELECT * FROM productos"
+    db.query(sql, function(error, data) {
+        if (error) res.send(`Ocurrió un error ${error.code}`)
+        res.render('index', {
+            titulo: "Mi emprendimiento",
+            productos: data
+        })
     })
-})
+
 
 }
 
-const contactoGET = function(req, res){
+const contactoGET = function (req, res) {
     res.render('contacto')
 }
 
@@ -43,8 +43,8 @@ const contactoPOST = function(req, res){
         `
     }
     // 3. Enviamos el mail
-    transporter.sendMail(mailOptions, function(error, info){
-        if(error){
+    transporter.sendMail(mailOptions, function(error, info) {
+        if (error) {
             console.log(error)
             res.status(500, error.message)
             res.status(500).render('contacto', {
@@ -64,15 +64,16 @@ const contactoPOST = function(req, res){
     })
 }
 
-const comoComprarGET = function(req, res){
+const comoComprarGET = function(req,res) {
     res.render('como-comprar')
 }
 
-const detalleProductoGET_ID = function(req, res){
+const detalleProductoGET_ID =  function(req,res) {
     let id = req.params.id
 
     let sql = "SELECT * FROM productos WHERE id = ?"
-    db.query(sql, id, function(err, data){
+    db.query(sql, id, function(err, data) {
+      
         if (err) res.send(`Ocurrió un error ${err.code}`);
 
         if (data == "") {
@@ -89,7 +90,7 @@ const detalleProductoGET_ID = function(req, res){
     
 }
 
-const sobreNosotrosGET = function(req, res){
+const sobreNosotrosGET = function(req,res) {
     res.render('sobre-nosotros')
 }
 

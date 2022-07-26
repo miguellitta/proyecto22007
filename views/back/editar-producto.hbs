@@ -3,81 +3,86 @@
 
 <head>
     {{> head}}
- </head>
+</head>
 
 <body id="backend">
     <h1>Editando: Lenovo X200</h1>
     <div class="container mb-4">
-        {{> header}}
+        {{>header }}
 
         {{> nav}}
-        <div class="editar-producto mt-4">
+        <div class=" mt-4">
 
-          
+
             <form action="/editar/{{producto.id}}" method="post">
-               <div class="row">
-                    
+                <div class="row">
+
                     <div class="col-12 col-md-6 col-lg-4">
                         <div class="row">
                             <div class="mb-3 col-12 col-md-6">
                                 <label for="nombre" class="form-label">Nombre</label>
-                                <input type="text" class="form-control" id="nombre" value={{producto.nombre}} name="nombre" required>
+                                <input type="text" class="form-control" id="nombre" value={{producto.nombre}}
+                                    name="nombre" required>
                             </div>
 
 
                             <div class="mb-3 col-12 col-md-6">
                                 <label for="precio" class="form-label">Precio (u$s)</label>
-                                <input type="text" class="form-control" id="precio"  value={{producto.precio}} name="precio" title="Sólo números" required>
+                                <input type="text" class="form-control" id="precio" value={{producto.precio}}
+                                    name="precio" title="Sólo números" required>
                             </div>
                         </div>
-                        
+
 
                         <div class="mb-3 col-12 editar" id="imagenCargada">
                             <div class="row">
                                 <div class="col-6">
                                     <label for="imagenDeProducto" class="form-label">Ruta Imagen</label>
-                                    <input type="text" name="imagenRuta" value={{producto.rutaImagen}}>
+                                    <input type="text" name="rutaImagen" value={{producto.rutaImagen}}>
                                 </div>
                                 <div class="col-6">
                                     <label for="stock"></label>
                                     <input type="number" name="stock" id="stock" value={{producto.stock}}>
                                 </div>
                             </div>
-                            
+
                         </div>
 
-                        
-                       
+
+
                     </div>
                     <div class="col-12 col-md-6 col-lg-8">
                         <div class="row">
                             <div class="mb-3 col-8">
                                 <label for="descripcion" class="form-label">Descripcion</label>
-                                <textarea class="form-control" id="descripcion" rows="16" name="descripcion">{{producto.descripcion}} </textarea>
+                                <textarea class="form-control" id="descripcion" rows="16"
+                                    name="descripcion">{{producto.descripcion}} </textarea>
                             </div>
                             <div class="mb-3 col-4">
                                 <label for="caracteristicas" class="form-label">Caracteristicas</label>
-                                <textarea class="form-control" id="caracteristicas" rows="16" placeholder="Separar con coma las características"
+                                <textarea class="form-control" id="caracteristicas" rows="16"
+                                    placeholder="Separar con coma las características"
                                     name="caracteristicas">{{producto.caracteristicas}}</textarea>
                             </div>
                         </div>
                     </div>
-                   
+
                 </div>
-                
-                
-                
+
+
+
                 <button type="submit" class="btn btn-info">editar</button>
-                 <a href="/admin" class="btn btn-info">Volver al listado de productos</a>
+                <a href="/admin" class="btn btn-info">Volver al listado de productos</a>
             </form>
         </div>
     </div>
 
-{{> footer}}
+    {{> footer}}
 
-<script>
-    
-</script>
+
+    <script>
+
+    </script>
 </body>
 
 </html>

@@ -4,14 +4,13 @@ let db = require('../db')
 const adminGET = function(req, res){
     
     let sql = "SELECT * FROM productos"
-    db.query(sql, function(err, data){
+    db.query(sql, function(err, data) {
         if (err) res.send(`Ocurrió un error ${err.code}`);
 
         res.render('admin', {
             titulo: "Panel de control",
             productos: data
         })
-
     })
 }
 

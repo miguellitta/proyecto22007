@@ -1,13 +1,13 @@
 const { Router } = require('express')
 const router = Router()
 
-const {
-     inicioGET,
-     contactoGET,
-     contactoPOST,
-     comoComprarGET,
-     detalleProductoGET_ID,
-     sobreNosotrosGET 
+const { 
+    inicioGET,
+    contactoGET,
+    contactoPOST,
+    comoComprarGET,
+    detalleProductoGET_ID,
+    sobreNosotrosGET
 } = require('../controllers/front.ctrl')
 
 // === FRONT ====
@@ -37,7 +37,7 @@ const {
     loginGET
 }= require('../controllers/back.ctrl')
 
-router.get('/admin', adminGET)
+router.get('/admin',adminGET )
 
 router.get('/agregar-producto', agregarProductoGET)
 router.post('/agregar-producto', agregarProductoPOST)
@@ -46,5 +46,6 @@ router.get('/editar/:id', editarProductoGET)
 router.post('/editar/:id', editarProductoPOST)
 router.get('/borrar/:id', borrarGET)
 router.get('/login', loginGET)
+
 
 module.exports = router
