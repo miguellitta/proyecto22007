@@ -91,6 +91,27 @@ const loginGET = function(req, res) {
     res.render('login')
 }
 
+const loginPOST = function(req, res) {
+    
+    let usuario = req.body.username
+    let clave = req.body.password
+
+    let sql = "SELECT * FROM cuentas WHERE email = ? AND clave = ?"
+    db.query(sql, [usuario, clave], function(err, data){
+        console.log("DATA", data)
+        if (data.length > 0){
+            // ok
+            res.redirect("/admin")
+        } else {
+            // error
+            res.render("login", { 
+                titulo: "Login", 
+                error: "Nombre de usuario o contraseña incorrecto" 
+            })
+        }
+    })
+}
+
 module.exports = {
     adminGET,
     agregarProductoGET,
@@ -98,5 +119,6 @@ module.exports = {
     editarProductoGET,
     editarProductoPOST,
     borrarGET,
-    loginGET
+    loginGET,
+    loginPOST
 }
