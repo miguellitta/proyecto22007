@@ -7,6 +7,9 @@ const app = express()
 const hbs = require('hbs')
 require('./helpers/helper');
 
+// config file
+const PUERTO = process.env.PORT || 3000;
+
 
 let opciones = {
     host     : process.env.DB_HOST,
@@ -54,6 +57,6 @@ app.use(function(req, res) {
 });
 
 
-app.listen(3000, function () {
-    console.log("El servidor está online en puerto 3000")
+app.listen(PUERTO, function () {
+    console.log(`El servidor está online en puerto ${PUERTO}`)
 })

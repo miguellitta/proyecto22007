@@ -37,7 +37,6 @@ hbs.registerHelper("listado", function(texto){
 
     for(let item of array) {
         html = `${html} <li>${item}</li>`
-        console.log(html)
     }
 
     return html + "</ul>"
@@ -81,11 +80,11 @@ var upload = multer({
         fileSize: maxSize
     },
     fileFilter: (req, file, cb) => {
-        if (file.mimetype == "image/png" || file.mimetype == "image/jpg" || file.mimetype == "image/jpeg") {
+        if (file.mimetype == "image/png" || file.mimetype == "image/jpg" || file.mimetype == "image/jpeg" || file.mimetype == "image/webp") {
             cb(null, true);
         } else {
             cb(null, false);
-            return cb(new Error('Sólo los formatos .png, .jpg y .jpeg son los permitidos'));
+            return cb(new Error('Sólo los formatos .png, .jpg, .jpeg y webp son los permitidos'));
         }
     }
 }).single("rutaImagen")

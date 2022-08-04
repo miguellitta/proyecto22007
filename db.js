@@ -10,6 +10,11 @@ connection.connect(function(error) {
     if(error) throw error
     console.log("DB conectada (ONLINE)")
 });
+
+setInterval(function () {
+  connection.query('SELECT 1');
+  console.log("manteniendo viva la conexion")
+}, 50000);
  
 
 module.exports = connection

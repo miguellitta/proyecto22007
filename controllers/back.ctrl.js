@@ -1,4 +1,5 @@
 let db = require('../db')
+const fs = require('fs');
 const { upload, maxSizeMB, multer } = require('../helpers/helper')
 
 
@@ -113,16 +114,64 @@ const editarProductoGET = function(req,res) {
 
 // EDITAR POST ID
 const editarProductoPOST = function(req, res) {
+    
+    upload(req, res, function (err) {
+        // Manejo de ERRORES de multer
+        if (err instanceof multer.MulterError) {
+            // Error de Multer al subir imagen
+            if (err.code === "LIMIT_FILE_SIZE") {
+                return res.status(400).render('agregar-producto', { mensaje: `Imagen muy grande, por favor achicar a ${maxSizeMB}`, clase: "danger" });
+            }
+            return res.status(400).render('agregar-producto', { mensaje: err.code, clase: "danger" });
+        } else if (err) {
+            // Ocurrió un error desconocido al subir la imagen
+            return res.status(400).render('agregar-producto', { mensaje: err, clase: "danger" });
+        }
+    
     let id = req.params.id
     let detalleProducto = req.body
+    
+    // chequear si la edición incluyó cambio de imagen
+    if (req.hasOwnProperty("file")) { //si se subió la imagen entonces multer adjuntó la propiedad "file"
+        console.log("EDITAR: req.FILE -->", req.file)
+        const nombreImagen = req.file.filename;
+        detalleProducto.rutaImagen = nombreImagen
 
+        // 
+        let borrarImagen = 'SELECT rutaImagen FROM productos WHERE id = ?';
+        db.query(borrarImagen, id, function (err, data) {
+            if (err) throw err;
+
+            console.log("Imagen a borrar", data[0].rutaImagen)
+            fs.unlink(`./public/uploads/${data[0].rutaImagen}`, function(err){
+                if (err) throw err;
+
+
+                //Una vez borrada la imagen se procede a actualizar el registro en la DB
+                let sql = "UPDATE productos SET ? WHERE id = ?"
+                db.query(sql, [detalleProducto, id], function (err, data){
+                    if (err) throw err;
+                    console.log(data.affectedRows + " registro(s) actualizado(s)");
+                })
+            })
+
+        })
+
+    }
+    
     let sql = "UPDATE productos SET ? WHERE id = ?"
-    db.query(sql, [detalleProducto, id], function(err, data) {
+    db.query(sql, [detalleProducto, id], function(err, data){
         if (err) throw err;
         console.log(data.affectedRows + " registro actualizado");
     })
 
     res.redirect("/admin")
+
+})
+    
+    
+    // ---------
+    
 
 }
 
@@ -132,6 +181,18 @@ const borrarGET = function(req, res) {
     if (req.session.logueado) {
         let id = req.params.id
 
+        // Borrar imagen
+        let borrarImagen = "SELECT rutaImagen FROM productos WHERE id = ?";
+        db.query(borrarImagen, [id], function (err, data) {
+            console.log(data[0].rutaImagen)
+            if (err) throw err;
+            fs.unlink(`public/uploads/${data[0].rutaImagen}`, (err) => {
+                if (err) throw err;
+                console.log('Archivo borrado');
+            });
+        });
+
+        // Borrar desde la base de datos
         let sql = "DELETE FROM productos WHERE id = ?"
         db.query(sql, id, function(err, data) {
             if (err) throw err;

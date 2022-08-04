@@ -11,10 +11,10 @@
         {{>header }}
 
         {{> nav}}
-        <div class=" mt-4">
+        <div class="editar-producto mt-4">
 
 
-            <form action="/editar/{{producto.id}}" method="post">
+            <form action="/editar/{{producto.id}}" method="post" enctype="multipart/form-data">
                 <div class="row">
 
                     <div class="col-12 col-md-6 col-lg-4">
@@ -28,12 +28,11 @@
 
                             <div class="mb-3 col-12 col-md-4">
                                 <label for="precio" class="form-label">Precio (u$s)</label>
-                                <input type="text" class="form-control" id="precio" value={{producto.precio}}
-                                    name="precio" title="Sólo números" required>
+                                <input type="text" class="form-control" id="precio" name="precio" value="{{producto.precio}}" pattern="^[0-9]*$" title="Ingresar número" required>
                             </div>
                             <div class="mb-3 col-12 col-md-2">
                                 <label for="stock" class="form-label">Stock</label>
-                                <input class="form-control" type="number" name="stock" id="stock" value={{producto.stock}}>
+                                <input class="form-control" type="text" name="stock" id="stock" value="{{producto.stock}}" pattern="^[0-9]*$">
                             </div>
                         </div>
 
@@ -46,7 +45,7 @@
                                     <div class="preview">
 
                                     </div>
-                                    <input class="form-control" type="file" id="rutaImagen" name="rutaImagen" style="display:none" accept=".png,.jpg,.jpeg">
+                                    <input class="form-control" type="file" id="rutaImagen" name="rutaImagen" style="display:none" accept=".png,.jpg,.jpeg,.webp">
                                 </div>
                                 
                             </div>
@@ -86,7 +85,68 @@
 
 
     <script>
+        // https://developer.mozilla.org/en-US/docs/Web/API/File/Using_files_from_web_applications
+        const contenedor = document.querySelector("#imagenCargada"),
+        elInput = document.querySelector("#rutaImagen");
 
+        contenedor.addEventListener("click", function(e) {
+            if (elInput) {
+                elInput.click();
+                document.querySelector("#imagenCargada img").style.display = "none";
+                elinput.style.display = "block"
+                contenedor.classList.remove("editar")
+            }
+        }, false);
+
+        // lo mismo de agregar-producto preview
+        const imagenDeProducto = document.querySelector('#rutaImagen');
+        const preview = document.querySelector('.preview');
+
+        imagenDeProducto.style.opacity = 0;
+        imagenDeProducto.addEventListener('change', updateImageDisplay);
+
+        console.log("preview.firstChild", preview.firstChild)
+
+        function updateImageDisplay() {
+            while (preview.firstChild) {
+                preview.removeChild(preview.firstChild);
+            }
+
+            const curFiles = imagenDeProducto.files;
+            console.log("curFiles: ", curFiles)
+            if (curFiles.length === 0) {
+                const para = document.createElement('p');
+                para.textContent = 'No hay una imagen seleccionada para subir';
+                preview.appendChild(para);
+            } else {
+                const list = document.createElement('ol');
+                preview.appendChild(list);
+
+                for (const file of curFiles) {
+                    const listItem = document.createElement('li');
+                    const para = document.createElement('p');
+                    para.textContent = `Archivo ${file.name}, tamaño ${returnFileSize(file.size)}.`;
+                    const image = document.createElement('img');
+                    image.src = URL.createObjectURL(file);
+
+                    listItem.appendChild(image);
+                    listItem.appendChild(para);
+
+
+                    list.appendChild(listItem);
+                }
+            }
+        }
+
+        function returnFileSize(number) {
+            if(number < 1024) {
+                return number + 'bytes';
+            } else if (number >= 1024 && number < 1048576) {
+                return (number / 1024).toFixed(1) + 'KB';
+            } else if (number >= 1048576) {
+                return (number / 1048576).toFixed(1) + 'MB';
+            }
+        }
     </script>
 </body>
 
