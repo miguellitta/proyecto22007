@@ -13,7 +13,7 @@ body {
 }
 
 #backend h1 {
-	text-align:center;
+	text-align: center;
 	padding: 10px;
 	background-color: rgb(241, 246, 147);
 	color: rgb(65, 65, 65);
@@ -21,14 +21,15 @@ body {
 
 #admin-productos img {
     max-width: 100%;
-    height:auto;
+    height: auto;
     max-height: 200px;
 }
 
 input#producto {
     font-size: 12px;
-    line-height:3
+    line-height: 3
 }
+
 .product-short-description {
 	text-overflow: ellipsis;
 	display: -webkit-box;
@@ -37,12 +38,15 @@ input#producto {
 	overflow-x: hidden;
 	overflow-y: hidden;
 }
+
 .product-thumb:hover {
   	cursor: pointer;
 }
+
 .product-item .product-thumb img { 
   	transition: .3s all;
 }
+
 .product-price {
     font-size: 24px;
 }
@@ -54,8 +58,9 @@ input#producto {
 .bi {
   	transition: .3s all;
 }
+
 footer .bi:hover {
-  	color:#00aced;
+  	color: #00aced;
 }
 
 #backend th,
@@ -69,6 +74,7 @@ footer .bi:hover {
 	height: 250px;
 	overflow: hidden;
 }
+
 #backend .descripcion div:after {
     content: '';
     position: absolute;
@@ -87,10 +93,10 @@ footer .bi:hover {
 }
 
 #backend #admin-productos td.caracteristicas ul {
-    list-style:disc;
+    list-style: disc;
     list-style-position: inside;
     font-size: 0.85rem;
-    line-height:2
+    line-height: 2
 }
 
 
@@ -119,6 +125,33 @@ footer .bi:hover {
 	text-transform: uppercase;
 	transition: all 0.5s
 }
+
+/* BACK - Agregar producto y editar (previsualización de la imagen) */
+#imagenCargada .preview,
+#subirImagen .preview {
+	border: 1px solid lightgray;
+	border-radius: 5px;
+	padding: 10px;
+}
+
+#imagenCargada .preview img,
+#subirImagen .preview img {
+	max-width: 100%;
+	height: auto;
+}
+
+#imagenCargada .preview p,
+#subirImagen .preview p {
+	font-size: 0.7rem;
+	line-height: 1rem;
+}
+
+#imagenCargada .preview ol,
+#subirImagen .preview ol{
+	padding: 0;
+	list-style: none;
+}
+
 /* /Inicio  */
 
 .product-item {

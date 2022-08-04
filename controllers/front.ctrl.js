@@ -1,33 +1,45 @@
-
+require('dotenv').config()
+const db = require('../db')
 let nodemailer = require('nodemailer');
-let db = require('../db')
 
 const inicioGET = function (req, res) {
+
+    /* console.log(req.session.contador)
+
+    req.session.contador = req.session.contador ? req.session.contador + 1 : 1;
+
+    res.send(`visita nro ${req.session.contador}`) */
    
     let sql = "SELECT * FROM productos"
     db.query(sql, function(error, data) {
         if (error) res.send(`Ocurrió un error ${error.code}`)
         res.render('index', {
             titulo: "Mi emprendimiento",
+            logueado: req.session.logueado,
+            usuario: req.session.usuario,
             productos: data
         })
     })
-
+    
 
 }
 
 const contactoGET = function (req, res) {
-    res.render('contacto')
+    res.render('contacto', {
+        titulo: "Contacto",
+        logueado: req.session.logueado,
+        usuario: req.session.usuario,
+    })
 }
 
 const contactoPOST = function(req, res){
     // 1. Definir el transportador
     let transporter = nodemailer.createTransport({
-        host: "smtp.mailtrap.io",
-        port: 2525,
+        host: process.env.EMAIL_HOST,
+        port: process.env.EMAIL_PORT,
         auth: {
-          user: "ff777b3bb46aed",
-          pass: "02d7fe880860d5"
+          user: process.env.EMAIL_USER,
+          pass: process.env.EMAIL_PASS
         }
     });
     // 2. Definimos el cuerpo de mail
@@ -35,12 +47,9 @@ const contactoPOST = function(req, res){
     let data = req.body
     let mailOptions = {
         from: data.nombre,
-        to: 'miguel.litta@gmail.com',
+        to: process.env.EMAIL_TO,
         subject: data.asunto,
-        html: `
-        <h2>El siguiente mensaje ha llegado de la web</h2> 
-        <p>${data.mensaje}</p>
-        `
+        html: `<p> ${data.mensaje}</p>`
     }
     // 3. Enviamos el mail
     transporter.sendMail(mailOptions, function(error, info) {
@@ -65,7 +74,11 @@ const contactoPOST = function(req, res){
 }
 
 const comoComprarGET = function(req,res) {
-    res.render('como-comprar')
+    res.render('como-comprar', {
+        titulo: "Cómo comprar",
+        logueado: req.session.logueado,
+        usuario: req.session.usuario,
+    })
 }
 
 const detalleProductoGET_ID =  function(req,res) {
@@ -74,7 +87,7 @@ const detalleProductoGET_ID =  function(req,res) {
     let sql = "SELECT * FROM productos WHERE id = ?"
     db.query(sql, id, function(err, data) {
       
-        if (err) res.send(`Ocurrió un error ${err.code}`);
+        if (err) throw err;
 
         if (data == "") {
             res.status(404).render("404", {
@@ -83,7 +96,10 @@ const detalleProductoGET_ID =  function(req,res) {
             })
         } else {
             res.render('detalle-producto', {
-                producto: data[0]
+                titulo: `Detalle del producto ${data[0].nombre}`,
+                producto: data[0],
+                logueado: req.session.logueado,
+                usuario: req.session.usuario,
             })
         }
     })
@@ -91,7 +107,11 @@ const detalleProductoGET_ID =  function(req,res) {
 }
 
 const sobreNosotrosGET = function(req,res) {
-    res.render('sobre-nosotros')
+    res.render('sobre-nosotros', {
+        titulo: "Sobre nosotros",
+        logueado: req.session.logueado,
+        usuario: req.session.usuario,
+    })
 }
 
 module.exports = {

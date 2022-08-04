@@ -2,14 +2,14 @@
 <html lang="en">
 
 <head>
-    {{> head}}
+   {{> head}}
 </head>
 
 <body>
 
-    {{> header}}
+{{> header}}
 
-    {{> nav}}
+{{> nav}}
     <section class="d-flex justify-content-center align-content-center my-5">
         <h1 class="page-name text-info">Contacto</h1>
     </section>
@@ -18,8 +18,8 @@
         <div class="contact-section">
             <div class="container">
                 {{#if mostrar}}
-
-                <div class="text-center alert alert-{{clase}}" role="alert" >{{mensaje}}</div>
+                                                   
+                 <div class="text-center alert alert-{{clase}}" role="alert" >{{mensaje}}</div>
 
                 {{/if}}
 
@@ -29,8 +29,7 @@
                         id="contact-form" novalidate>
                         <div class="col-md-4">
                             <label for="nombre" class="form-label">Nombre</label>
-                            <input type="text" class="form-control" id="nombre" placeholder="Escribe tu nombre"
-                                 name="nombre" required>
+                            <input type="text" class="form-control" id="nombre" placeholder="Escribe tu nombre" name="nombre" required>
                             <div class="invalid-feedback">
                                 Escribe correctamente tu nombre
                             </div>
@@ -83,23 +82,24 @@
 
         // Validación
         (() => {
-    'use strict'
+  'use strict'
 
-    // Fetch all the forms we want to apply custom Bootstrap validation styles to
-    const forms = document.querySelectorAll('.needs-validation')
+  // Fetch all the forms we want to apply custom Bootstrap validation styles to
+  const forms = document.querySelectorAll('.needs-validation')
 
-    // Loop over them and prevent submission
-    Array.from(forms).forEach(form => {
-        form.addEventListener('submit', event => {
-            if (!form.checkValidity()) {
-                event.preventDefault()
-                event.stopPropagation()
-            }
+  // Loop over them and prevent submission
+  Array.from(forms).forEach(form => {
+    form.addEventListener('submit', event => {
+      if (!form.checkValidity()) {
+        event.preventDefault()
+        event.stopPropagation()
+      }
 
-            form.classList.add('was-validated')
-        }, false)
-    })
+      form.classList.add('was-validated')
+    }, false)
+  })
 })()
+
     </script>
 
 </body>

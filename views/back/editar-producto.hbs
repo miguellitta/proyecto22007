@@ -6,7 +6,7 @@
 </head>
 
 <body id="backend">
-    <h1>Editando: Lenovo X200</h1>
+    <h1>Editando: {{producto.nombre}}</h1>
     <div class="container mb-4">
         {{>header }}
 
@@ -26,24 +26,29 @@
                             </div>
 
 
-                            <div class="mb-3 col-12 col-md-6">
+                            <div class="mb-3 col-12 col-md-4">
                                 <label for="precio" class="form-label">Precio (u$s)</label>
                                 <input type="text" class="form-control" id="precio" value={{producto.precio}}
                                     name="precio" title="Sólo números" required>
+                            </div>
+                            <div class="mb-3 col-12 col-md-2">
+                                <label for="stock" class="form-label">Stock</label>
+                                <input class="form-control" type="number" name="stock" id="stock" value={{producto.stock}}>
                             </div>
                         </div>
 
 
                         <div class="mb-3 col-12 editar" id="imagenCargada">
                             <div class="row">
-                                <div class="col-6">
-                                    <label for="imagenDeProducto" class="form-label">Ruta Imagen</label>
-                                    <input type="text" name="rutaImagen" value={{producto.rutaImagen}}>
+                                <div class="col">
+                                    <label for="rutaImagen" class="form-label">Imagen</label>
+                                    <img src="/uploads/{{producto.rutaImagen}}" alt="{{producto.nombre}}" class="img-fluid">
+                                    <div class="preview">
+
+                                    </div>
+                                    <input class="form-control" type="file" id="rutaImagen" name="rutaImagen" style="display:none" accept=".png,.jpg,.jpeg">
                                 </div>
-                                <div class="col-6">
-                                    <label for="stock"></label>
-                                    <input type="number" name="stock" id="stock" value={{producto.stock}}>
-                                </div>
+                                
                             </div>
 
                         </div>

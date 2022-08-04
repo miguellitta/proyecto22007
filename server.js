@@ -1,14 +1,36 @@
 const express = require('express')
+const session = require('express-session')
+const dotenv = require('dotenv').config()
+let MySQLStore = require('express-mysql-session')(session);
+const path = require('path');
 const app = express()
 const hbs = require('hbs')
-var path = require('path');
 require('./helpers/helper');
+
+
+let opciones = {
+    host     : process.env.DB_HOST,
+    user     : process.env.DB_USER,
+    password : process.env.DB_PASSWORD,
+    database : process.env.DB_DATABASE
+}
+
+let sessionStore = new MySQLStore(opciones)
+
+app.use(session({
+    key: 'cookie_22007',
+    secret: process.env.SESSION_SECRET,
+    store: sessionStore,
+    resave: true,
+    saveUninitialized: false,
+    cookie: { maxAge: 300000 } // 5 minutos (ms)
+}))
 
 
 // Para que tome los datos de los formularios
 app.use(express.json());
 app.use(express.urlencoded({
-    extended: false
+  extended: false
 }));
 
 app.use(express.static('public'));
@@ -31,6 +53,7 @@ app.use(function(req, res) {
     res.status(404).render('404');
 });
 
-app.listen(3000, function() {
+
+app.listen(3000, function () {
     console.log("El servidor está online en puerto 3000")
 })
